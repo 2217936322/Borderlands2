@@ -86,7 +86,8 @@ FVector inline WorldToScreen(UCanvas* pCanvas, FVector Location)
 	if (Transformed.Z < 1.00f)
 		Transformed.Z = 1.00f;
 
-	float FOVAngle = pPC->GetALocalPlayerController()->FOVAngle;
+	//float FOVAngle = pPC->GetALocalPlayerController()->FOVAngle;
+	float FOVAngle = pPC->eventGetFOVAngle();
 	FOVAngle = FOVAngle + ((FOVAngle * 16.0f) / 61.8f);
 
 	Vector.X = (pCanvas->ClipX / 2.0f) + Transformed.X * ((pCanvas->ClipX / 2.0f) / pPC->Tan(FOVAngle * CONST_Pi / 360.0f)) / Transformed.Z;
@@ -102,14 +103,14 @@ void inline Draw2DBoundingBox(UCanvas* canvas, APawn* Target, FColor color)
 
 	FVector BoxMax = WorldToScreen(canvas, Box.Max);
 	FVector BoxMin = WorldToScreen(canvas, Box.Min);
-	FVector BoxCenter = WorldToScreen(canvas, Target->Location);
+	FVector BoxCenter = WorldToScreen(canvas, Target->GetPawnViewLocation());
 
 	float Width = fabs((BoxMax.Y - BoxMin.Y) / 4);
 
-	canvas->Draw2DLine(BoxCenter.X - Width, BoxMin.Y, BoxCenter.X + Width, BoxMin.Y, color); // §ß§Ú§Ù
-	canvas->Draw2DLine(BoxCenter.X - Width, BoxMax.Y, BoxCenter.X + Width, BoxMax.Y, color); // §Ó§Ö§â§ç
-	canvas->Draw2DLine(BoxCenter.X - Width, BoxMin.Y, BoxCenter.X - Width, BoxMax.Y, color); // §Ý§Ö§Ó§à
-	canvas->Draw2DLine(BoxCenter.X + Width, BoxMax.Y, BoxCenter.X + Width, BoxMin.Y, color); // §á§â§Ñ§Ó§à
+	canvas->Draw2DLine(BoxCenter.X - Width, BoxMin.Y, BoxCenter.X + Width, BoxMin.Y, color); // Ð½Ð¸Ð·
+	canvas->Draw2DLine(BoxCenter.X - Width, BoxMax.Y, BoxCenter.X + Width, BoxMax.Y, color); // Ð²ÐµÑ€Ñ…
+	canvas->Draw2DLine(BoxCenter.X - Width, BoxMin.Y, BoxCenter.X - Width, BoxMax.Y, color); // Ð»ÐµÐ²Ð¾
+	canvas->Draw2DLine(BoxCenter.X + Width, BoxMax.Y, BoxCenter.X + Width, BoxMin.Y, color); // Ð¿Ñ€Ð°Ð²Ð¾
 }
 
 
@@ -131,12 +132,12 @@ void inline DrawRect(UCanvas* pCanvas, float X, float Y, float Width, float Heig
 
 	pCanvas->DrawColor = OldColor;
 }
-void inline DrawCrosshair(UCanvas* pCanvas, FColor pColor)
+void inline DrawCrosshair(UCanvas* pCanvas, FColor pColor , int w)
 {
-	DrawRect(pCanvas, pCanvas->ClipX / 2 - 10, pCanvas->ClipY / 2 - 0.5f, 20, 2, pCanvas->DefaultTexture, pColor);
-	DrawRect(pCanvas, pCanvas->ClipX / 2 - 0.5f, pCanvas->ClipY / 2 - 10, 2, 20, pCanvas->DefaultTexture, pColor);
-	//pCanvas->Draw2DLine(pCanvas->ClipX / 2 - 10, pCanvas->ClipY / 2 - 0.5f)
-
+	//DrawRect(pCanvas, pCanvas->ClipX / 2 - 10, pCanvas->ClipY / 2 - 0.5f, 20, 2, pCanvas->DefaultTexture, pColor);
+	//DrawRect(pCanvas, pCanvas->ClipX / 2 - 0.5f, pCanvas->ClipY / 2 - 10, 2, 20, pCanvas->DefaultTexture, pColor);
+	pCanvas->Draw2DLine((pCanvas->ClipX / 2) - w, pCanvas->ClipY / 2 + 1, (pCanvas->ClipX / 2) + w + 1, pCanvas->ClipY / 2 + 1, pColor);
+	pCanvas->Draw2DLine(pCanvas->ClipX / 2 + 1, (pCanvas->ClipY / 2) - w, pCanvas->ClipX / 2 + 1, (pCanvas->ClipY / 2) + w + 1, pColor);
 }
 void inline DrawBorderText(UCanvas* canvas, FString Text, float CoordX, float CoordY, FColor Color)
 {
@@ -195,12 +196,12 @@ void PostRender(UCanvas* canvas) {
 	if (!canvas) return;
 	DrawBorderText(canvas, L"ImKK  QQ:2217936322", 11, 11, Red);
 	FPS(canvas);
-	DrawCrosshair(canvas, Green);
+	DrawCrosshair(canvas, Green, 10);
 	if (!pPC || (!(MyPawn = pPC->Pawn))) return;
 	//pPC->PlayerCamera->GetCameraViewPoint(&MyCameraLocation, &MyCameraRotation);
 	MyCameraRotation = MyPawn->GetViewRotation();
 	MyCameraLocation = MyPawn->GetPawnViewLocation();
-	//printf("Rotation: X %i  Y %i\n", MyCameraRotation.Pitch, MyCameraRotation.Yaw);
+	//printf("Rotation: X %i  Y %i    %i  %i\n", MyCameraRotation.Pitch, MyCameraRotation.Yaw, MyPawn->Rotation.Pitch, MyPawn->Rotation.Yaw);
 	//printf("Location: X %f  Y %f  Z %f\n", MyCameraLocation.X, MyCameraLocation.Y, MyCameraLocation.Z);
 	if (pPC->WorldInfo && pPC->WorldInfo->PawnList)
 	{
@@ -209,20 +210,28 @@ void PostRender(UCanvas* canvas) {
 		{
 			if (PlayerPawn->bDeleteMe && PlayerPawn->bPlayedDeath) return;
 			//printf("GetTeamNum %i  eventScriptGetTeamNum %i  IsSameTeam %i\n", PlayerPawn->GetTeamNum(), PlayerPawn->eventScriptGetTeamNum(), MyPawn->eventIsSameTeam(PlayerPawn));
-			if (PlayerPawn == MyPawn) // ×ÔÉíµÄ
+			if (PlayerPawn == MyPawn) // è‡ªèº«çš„
 			{
-				((AWillowWeapon*)MyPawn->Weapon)->AddAmmo(30);
+				//printf("eventGetFOVAngle %f  FOVAngle %f  xxxxxx %f\n", pPC->eventGetFOVAngle(), pPC->FOVAngle, pPC->GetALocalPlayerController()->FOVAngle);
+				//if (((AWillowWeapon*)MyPawn->Weapon)->AmmoPool.Data)
+				//{
+				//	((AWillowWeapon*)MyPawn->Weapon)->AmmoPool.Data->MaxValue = 1000.0f;
+				//	((AWillowWeapon*)MyPawn->Weapon)->AmmoPool.Data->CurrentValue = 1000.0f;
+				//}
+				((AWillowWeapon*)MyPawn->Weapon)->ClipSize = 100;
 				((AWillowWeapon*)MyPawn->Weapon)->Spread = 0.0f;
+				((AWillowWeapon*)MyPawn->Weapon)->SpreadBaseValue = 0.0f;
+				((AWillowWeapon*)MyPawn->Weapon)->AddAmmo(30);
 			}
 			else
 			{
-				W2SLoc = WorldToScreen(canvas, PlayerPawn->Location);//PlayerPawn->Location);				
-				if (!MyPawn->eventIsSameTeam(PlayerPawn)) // µÐÈËµÄ
+				W2SLoc = WorldToScreen(canvas, PlayerPawn->GetPawnViewLocation());//PlayerPawn->Location);				
+				if (!MyPawn->eventIsSameTeam(PlayerPawn)) // æ•Œäººçš„
 				{
-					//2D·½¿ò
+					//2Dæ–¹æ¡†
 					Draw2DBoundingBox(canvas, PlayerPawn, Green);
 				}
-				else // ¶ÓÓÑµÄ
+				else // é˜Ÿå‹çš„
 				{
 				}
 			}
@@ -230,7 +239,7 @@ void PostRender(UCanvas* canvas) {
 		}
 	}
 }
-void __fastcall MyProcessEvent(class UObject *pObject, void* edx /*±ðÏ¹¼¸°Ñ¸Ä,Ò²±ðÏ¹¼¸°Ñµ÷ÓÃ!!*/, UFunction *pFunction, void* pParams, void* pResult)
+void __fastcall MyProcessEvent(class UObject *pObject, void* edx /*åˆ«çžŽå‡ æŠŠæ”¹,ä¹Ÿåˆ«çžŽå‡ æŠŠè°ƒç”¨!!*/, UFunction *pFunction, void* pParams, void* pResult)
 {
 	string v_pFunction{ pFunction->GetFullName() };
 	//Log("%s", v_pFunction.c_str());
@@ -285,16 +294,16 @@ DWORD WINAPI OnAttach(LPVOID lpParam) {
 	AllocConsole();
 	freopen("CONOUT$", "w", stdout);
 
-	std::cout << "à£Ò»¸ö×ÏÑª!!!" << std::endl;
+	std::cout << "å•µä¸€ä¸ªç´«è¡€!!!" << std::endl;
 	//do {
-	//	std::cout << "µÈ´ýÓÎÏ·´°¿Ú´´½¨!" << std::endl;
+	//	std::cout << "ç­‰å¾…æ¸¸æˆçª—å£åˆ›å»º!" << std::endl;
 	//	g_window = FindWindow(L"LaunchUnrealUWindowsClient", L"Borderlands 2 (32-bit, DX9)");
 	//	if (!g_window)
 	//	{
 	//		Sleep(500);
 	//	}
 	//} while (!g_window);
-	//std::cout << "ÓÎÏ·´°¿Ú´´½¨Íê±Ï!!" << std::endl;
+	//std::cout << "æ¸¸æˆçª—å£åˆ›å»ºå®Œæ¯•!!" << std::endl;
 
 	if (MH_Initialize() != MH_OK) printf("MH_Initialize failed\n");
 	if (MH_CreateHook((PVOID)ProcessEvent, MyProcessEvent, reinterpret_cast<void**>(&ProcessEvent)) != MH_OK) printf("ProcessEvent hook failed\n");
