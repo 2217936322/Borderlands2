@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{525F9ACC-8272-4115-B839-FCADB732981C}</ProjectGuid>
+    <RootNamespace>Borderlands2</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Borderlands2.cpp" />
+    <ClCompile Include="MinHook\src\buffer.c" />
+    <ClCompile Include="MinHook\src\hde\hde32.c" />
+    <ClCompile Include="MinHook\src\hde\hde64.c" />
+    <ClCompile Include="MinHook\src\hook.c" />
+    <ClCompile Include="MinHook\src\trampoline.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MinHook\MinHook.h" />
+    <ClInclude Include="MinHook\src\buffer.h" />
+    <ClInclude Include="MinHook\src\hde\hde32.h" />
+    <ClInclude Include="MinHook\src\hde\hde64.h" />
+    <ClInclude Include="MinHook\src\hde\pstdint.h" />
+    <ClInclude Include="MinHook\src\hde\table32.h" />
+    <ClInclude Include="MinHook\src\hde\table64.h" />
+    <ClInclude Include="MinHook\src\trampoline.h" />
+    <ClInclude Include="SdkHeaders.h" />
+    <ClInclude Include="SDK_HEADERS\AkAudio_classes.h" />
+    <ClInclude Include="SDK_HEADERS\AkAudio_functions.h" />
+    <ClInclude Include="SDK_HEADERS\AkAudio_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\AkAudio_structs.h" />
+    <ClInclude Include="SDK_HEADERS\Core_classes.h" />
+    <ClInclude Include="SDK_HEADERS\Core_functions.h" />
+    <ClInclude Include="SDK_HEADERS\Core_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\Core_structs.h" />
+    <ClInclude Include="SDK_HEADERS\Engine_classes.h" />
+    <ClInclude Include="SDK_HEADERS\Engine_functions.h" />
+    <ClInclude Include="SDK_HEADERS\Engine_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\Engine_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GameFramework_classes.h" />
+    <ClInclude Include="SDK_HEADERS\GameFramework_functions.h" />
+    <ClInclude Include="SDK_HEADERS\GameFramework_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GameFramework_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GearboxFramework_classes.h" />
+    <ClInclude Include="SDK_HEADERS\GearboxFramework_functions.h" />
+    <ClInclude Include="SDK_HEADERS\GearboxFramework_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GearboxFramework_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GFxUI_classes.h" />
+    <ClInclude Include="SDK_HEADERS\GFxUI_functions.h" />
+    <ClInclude Include="SDK_HEADERS\GFxUI_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\GFxUI_structs.h" />
+    <ClInclude Include="SDK_HEADERS\IpDrv_classes.h" />
+    <ClInclude Include="SDK_HEADERS\IpDrv_functions.h" />
+    <ClInclude Include="SDK_HEADERS\IpDrv_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\IpDrv_structs.h" />
+    <ClInclude Include="SDK_HEADERS\OnlineSubsystemSteamworks_classes.h" />
+    <ClInclude Include="SDK_HEADERS\OnlineSubsystemSteamworks_functions.h" />
+    <ClInclude Include="SDK_HEADERS\OnlineSubsystemSteamworks_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\OnlineSubsystemSteamworks_structs.h" />
+    <ClInclude Include="SDK_HEADERS\WillowGame_classes.h" />
+    <ClInclude Include="SDK_HEADERS\WillowGame_functions.h" />
+    <ClInclude Include="SDK_HEADERS\WillowGame_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\WillowGame_structs.h" />
+    <ClInclude Include="SDK_HEADERS\WinDrv_classes.h" />
+    <ClInclude Include="SDK_HEADERS\WinDrv_functions.h" />
+    <ClInclude Include="SDK_HEADERS\WinDrv_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\WinDrv_structs.h" />
+    <ClInclude Include="SDK_HEADERS\XAudio2_classes.h" />
+    <ClInclude Include="SDK_HEADERS\XAudio2_functions.h" />
+    <ClInclude Include="SDK_HEADERS\XAudio2_f_structs.h" />
+    <ClInclude Include="SDK_HEADERS\XAudio2_structs.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
